@@ -1,0 +1,333 @@
+midpublic
+2Ojcbdvu-2C0JS_s
+Authorization: Basic bWlkcHVibGljOjJPamNiZHZ1LTJDMEpTX3M=
+
+http://www.javarticles.com/2016/07/quartz-interrupt-job-example.html
+
+mvn install -DskipTests=true
+mvn deploy -DskipTests=true
+
+git fetch
+git checkout -b weblogic-dev       [-b to be added only when creating new branch]
+git push origin HEAD:refs/heads/weblogic-dev
+git branch --set-upstream-to=origin/weblogic-dev weblogic-dev
+
+Every time while deleting & importing it new
+git fetch
+git checkout weblogic-dev       [-b to be added only when creating new branch]
+git push origin HEAD:refs/heads/weblogic-dev
+git branch --set-upstream-to=origin/weblogic-dev weblogic-dev
+
+To create a new Branch
+Hard Reset to the position where you want in STS
+git checkout -b java-migration 
+
+git push origin HEAD:refs/heads/java-migration 
+git branch --set-upstream-to=origin/java-migration java-migration 
+
+
+mvn release:prepare -DpushChanges=false
+mvn release:clean
+git push --tags
+git push
+
+git push origin master
+
+git push origin production-q1-18
+git push origin es-migration-6.2.2
+git push origin development-batchorder
+
+git push origin HEAD:refs/heads/development-batchorder
+git branch --set-upstream-to=origin/development-batchorder development-batchorder
+git push origin development-batchorder
+
+git checkout es-migration-6.2.2
+git checkout development-batchorder
+git push origin production
+For mortgage
+mvn -Darguments="-DskipTests" release:prepare -DpushChanges=false
+mvn release:prepare -DpushChanges=false -Darguments="-DskipTests"
+mvn release:prepare -DskipTests=true -DpushChanges=false //thisdoesnt work
+
+mvn -Darguments="-DskipTests" install deploy
+mvn install deploy -DskipTests=true
+
+CCCK - Class for emobc timeout variables
+
+To delete a Tag
+git push origin :refs/tags/webservice-test-tool-0.0.7
+git tag --delete webservice-test-tool-0.0.7
+
+
+vi gerrit-fix-commit-msg.sh
+Edit the Script file like below for updating required things
+#! /bin/bash
+
+# execute like ./gerrit-update.sh {path-to-git-project-directory}
+# or just in your {git-project-directory} ./gerrit-update.sh
+
+*********************************************************************************************************************
+									To Ammend a Specific commit STARTS
+*********************************************************************************************************************
+To rebase from the last 9 commits
+git rebase -i @~9
+
+Now change the  'pick' to 'edit' on the commit you want to ammend.
+press :wq
+Make necessary changes in code
+git status
+Check only the changed Files are shown.
+
+git add -A
+git commit --amend --no-edit
+git push origin <<branch>>
+git rebase --continue
+*********************************************************************************************************************
+									To Amend a Specific commit ENDS
+*********************************************************************************************************************
+
+
+./gerrit-checkout-all.sh Praveen.Nandagopal .
+./gerrit-update.sh Praveen.Nandagopal .
+./gerrit-update-all.sh Praveen.Nandagopal .
+./gerrit-maven-clean-all.sh
+./gerrit-maven-clean-install-all.sh
+
+
+./gerrit-checkout.sh praveen.nandagopal . web rating
+./gerrit-checkout.sh Praveen.Nandagopal . ib widget-mortgage
+./gerrit-checkout.sh Praveen.Nandagopal . util web-utils
+./gerrit-checkout.sh Praveen.Nandagopal . mobile securemail
+
+
+How to squash Commits as a group
+1. commit it in local repository for each sub-feature seperately
+	ex: git commit
+2. identify how many commits from head by using log
+	ex: git log
+3. rebase interactive for no of commits done locally(5 commits)
+	ex: git rebase -i HEAD~5
+4. now leave the first commit with pick & change the pick to squash for the last 4 commits
+5. save it by :wq
+6. now ammend the commit message with short title, then empty line, then the description of all the sub-features.
+	ex: git commit --ammend
+7. now again use git log to check if all the local commits are squashed together as single commit
+	ex: git log
+8. push your changes to remote
+	ex : git push
+	
+---------------------------------------------------------------------------------------------------------------------------------
+
+proxy:	10.179.18.215
+port: 	3130
+npm -install
+
+To check version
+npm -v
+
+to upgrade npm
+npm upgrade
+npm -g gulp install
+
+Usage: npm <command>
+
+To find gulp version
+gulp -v
+
+
+curl -XGET -k -u es_admin:xxx "localhost:9200/valor-valor/_settings"
+curl -XGET -k -u es_admin:xxx "http://localhost:9999/valor-valor/_settings" 
+curl -XGET -k -u elastic:changeme "http://localhost:53684/valor-valor/_settings" 
+curl -XGET -k -u es_admin:xxx "http://localhost:53684/valor-valor/_settings" {"valor-valor":{"settings":{"index":{"refresh_interval":"1s","number_of_shards":"5","max_result_window":"100000","creation_date":"1518768869180","store":{"type":"fs"},"number_of_replicas":"1","uuid":"aYolZrJUSEm1TEWiZsE-DA","version":{"created":"2020099"}}}}}
+
+
+
+http://localhost:53684/valor-valor/_settings
+The below Results
+{"valor-valor":{"settings":{"index":{"refresh_interval":"1s","number_of_shards":"5","creation_date":"1518768869180","store":{"type":"fs"},"number_of_replicas":"1","uuid":"aYolZrJUSEm1TEWiZsE-DA","version":{"created":"2020099"}}}}}
+
+
+curl -XGET -k -u <<USERNAME>>:<<PASSWORD>> "http://localhost:<<PORTNO>>/valor-valor/_settings" {"valor-valor":{"settings":{"index":{"refresh_interval":"1s","number_of_shards":"5","max_result_window":"100000","creation_date":"1518768869180","store":{"type":"fs"},"number_of_replicas":"1","uuid":"aYolZrJUSEm1TEWiZsE-DA","version":{"created":"2020099"}}}}}
+
+Example (Do you know the username / Password & port in 355 machine)
+USERNAME 	:	es_admin
+PASSWORD	:	changeme
+PORTNO		:	9999 or 9200
+
+https://academy.pivotal.io/confirm-course?courseid=EDU-1120-APP
+
+Keyboard Chars
+§1234567890'^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ°+"*ç%&/()=¦@#°§¬|¢'^?`´~<>\ü¨öä$,.-è!éà£;:_[]{}
+
+FOR WEB Interface : https://midimp2o.migrosbank.ch/ssms-services/fcma/ebanking/splogin/
+
+APP LINK 	:	http://mbzpx40003.migrosbank.ch/testing.html 
+
+R:\MB_BIGPOOL_DATEN\Polaris\77_Leon - Ebill
+proxy : 10.179.18.215
+port : 3130
+
+https://eap-imp2.migrosbank.ch/p2p/request?phoneNumber=+4177133302&name=Vishnu&contractNumber=EB80133480&deviceId=MBA000230-72&lang=de
+
+
+index.max_result_window
+
+https://eap-tst3.migrosbank.ch/p2p/assign?deviceId=55C21B6A-1FF3-4F71-9A78-89BEB5095EA7&contractNumber=05018069&name=dario&lang=de&phoneNumber=+41792975137
+https://eap-tst3.migrosbank.ch/p2p/assign?deviceId=55C21B6A-1FF3-4F71-9A78-89BEB5095EA7&contractNumber=EB80133480&name=dario&lang=de&phoneNumber=+41792975137
+https://eap-tst3.migrosbank.ch/p2p/assign?deviceId=55C21B6A-1FF3-4F71-9A78-89BEB5095EA7&contractNumber=EB80133480&name=dario&lang=de&phoneNumber=+41792975137
+
+DB Details
+aswidget
+Seti92mus!
+
+mvn clean jetty:run -Djetty.port=8090 -DskipTests 
+
+try to stop
+mvn clean jetty:stop -Djetty.port=8090 
+
+To find the Path of the Node
+npm config get prefix
+
+export PATH="/d/MBf00973/node:$PATH"
+
+$ echo $PATH
+
+http://localhost:9005/ibng-customer-profile/api/i18n
+http://localhost:9005/ibng-customer-profile/api/parameters
+http://localhost:9005/ibng-customer-profile/api/address/display
+http://localhost:9005/ibng-customer-profile/api/contact/list
+
+streetSearchURL:"/midebankingcustomerprofile/api/addresssearch/services/address/v1/street"
+
+C:\\Program Files\\Git\\bin\\bash.exe		  
+
+
+JBOSS-Server Details
+
+Location		: C:\Users\MBf01031\EAP-6.4.0\bin\standalone.bat
+Console			: http://localhost:9990/console/App.html#deployments
+username: admin
+password : Welcome01$
+WebUrl			: http://localhost:8080/
+
+
+Location		: D:\MBf00973\JBOSS\jboss-eap-6.4-CVE-2015-7501\jboss-eap-6.4\bin\standalone.bat
+Console			: http://localhost:1080/console/App.html#deployments
+username		: f230
+password 		: Welcome01$
+WebUrl			: http://localhost:8080/
+
+standalone.bat -c standalone-full.xml
+standalone.bat -c standalone.xml
+
+D:\MBf00973\playground\Elastic-search\elasticsearch-6.4.2\bin
+
+-------------------------------------------------------------------------------------------------------------------------
+
+https://mbztx057:9023/minvest-savingplan/minvest?kdLnr=10667&vtLnr=18366012822000&userLang=1&userBank=949
+
+https://testbankingimp2.migrosbank.ch/WEB_XSA_LOGIN/login.xhtml
+EB80142407 / Testing
+EB80142406 / Testing
+
+https://testbanking.migrosbank.ch/WEB_XSA_LOGIN/login.xhtml
+EB80141865 / Testing
+
+http://localhost:8090/ib-widgets/ibwidgets
+
+
+
+-------------------------------------------------------------------------------------------------------------------------
+
+git fetch
+git checkout -b weblogic-dev       [-b to be added only when creating new branch]
+git push origin HEAD:refs/heads/weblogic-dev
+git branch --set-upstream-to=origin/weblogic-dev weblogic-dev
+
+Every time while deleting & importing it new
+git fetch
+git checkout weblogic-dev       [-b to be added only when creating new branch]
+git push origin HEAD:refs/heads/weblogic-dev
+git branch --set-upstream-to=origin/weblogic-dev weblogic-dev
+
+To create a new Branch
+Hard Reset to the position where you want in STS
+git checkout -b production-q1-18
+git push origin HEAD:refs/heads/production-q1-18
+git branch --set-upstream-to=origin/production-q1-18 production-q1-18
+
+mvn release:prepare -DpushChanges=false
+mvn release:clean
+git push --tags
+git push
+
+git push origin master
+git push origin production-q1-18
+
+
+git push origin production
+For mortgage
+mvn -Darguments="-DskipTests" release:prepare -DpushChanges=false
+mvn release:prepare -DpushChanges=false -Darguments="-DskipTests"
+mvn release:prepare -DskipTests=true -DpushChanges=false //thisdoesnt work
+
+mvn -Darguments="-DskipTests" install deploy
+mvn install deploy -DskipTests=true
+
+
+
+scp -p -P 29418 Praveen.Nandagopal@mbztx30263.migrosbank.ch:hooks/commit-msg ${gitdir}/hooks/
+
+scp -p -P 29418 Praveen.Nandagopal@mbztx30263.migrosbank.ch:hooks/commit-msg C:\Users\MBf00971\Documents\git-projects\.git\hooks
+git commit --amend
+
+cd c:/Users/MBf00971/Documents/git-projects/.git/hooks/git push
+git rev-parse --git-dir
+scp -p -P 29418 Praveen.Nandagopal@mbztx30263.migrosbank.ch:hooks/commit-msg ./
+
+
+git commit --amend
+
+For ordering of bean
+--------------------
+https://stackoverflow.com/questions/38967732/two-securityconfig-class-in-a-spring-boot-project/45115521
+  
+valor-search-urls
+ 
+https://eap-imp2.migrosbank.ch/midvalorsearch/version 
+https://eap-imp2.migrosbank.ch/midvalorsearchadmin/version
+
+
+https://eap-imp2.migrosbank.ch/midbankingcardlimits/version
+https://eap-imp2.migrosbank.ch/midbankingcardlimits/cards-summary?contractNumber=EB80133480
+
+activation urls
+https://eap-imp2.migrosbank.ch/activation
+
+https://eap-imp2.migrosbank.ch/smarx/smarxTriggerServlet?SMARXLNR=62937550096096
+
+
+DEV JBOSS URLS - device(mobileinformation)
+http://mbztx30262.migrosbank.ch:8080/mobileinformation/1.4/exchangeRates?lang=de&intVer=1.4.0&devBrand=Samsung&devType=GalaxyNexus1234&height=1280&width=720&os=Android&osVer=4.2.1&app=myBankApp&appVer=2.2.0
+
+http://mbztx30262.migrosbank.ch:8080/mobileinformation/1.4/newsFeed?lang=de&intVer=1.4.0&devBrand=Samsung&devType=GalaxyNexus1234&height=1280&width=720&os=Android&osVer=4.2.1&app=myBankApp&appVer=2.2.0
+
+http://mbztx30262.migrosbank.ch:8080/mobileinformation/1.4/contacts?lang=de&intVer=1.4.0&devBrand=Samsung&devType=GalaxyNexus1234&height=1280&width=720&os=Android&osVer=4.2.1&app=myBankApp&appVer=2.2.0&c1=999&c2=998&c3=997&c4=0&c5=96&c6=0&c7=7&c8=7&c9=5&c10=2&c11=0
+
+http://mbztx30262.migrosbank.ch:8080/mobileinformation/1.4/interests?lang=de&intVer=1.4.0&devBrand=Samsung&devType=GalaxyNexus1234&height=1280&width=720&os=Android&osVer=4.2.1&app=myBankApp&appVer=2.2.0
+
+http://mbztx30262.migrosbank.ch:8080/mobileinformation/1.4/feedback?lang=de&intVer=1.4.0&devBrand=Samsung&devType=GalaxyNexus1234&height=1280&width=720&os=Android&osVer=4.2.1&app=myBankApp&appVer=2.2.0
+
+http://mbztx30262.migrosbank.ch:8080/mobileinformation/1.4/accountopening?lang=de&intVer=1.4.0&devBrand=Samsung&devType=GalaxyNexus1234&height=1280&width=720&os=Android&osVer=4.2.1&app=myBankApp&appVer=2.2.0
+
+dos2unix start-dev.sh start-dev.sh
+
+chmod 777 s
+
+chmod 777 start-dev.sh
+
+MCMS - Internet
+
+Change port in MnSSTClient.java
+Remove comment for DB DEV profile
+Modify SIZEINBYTE column size in attachements table in dump.sql

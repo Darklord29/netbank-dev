@@ -1,0 +1,149 @@
+| *Smart Security Management Server (SSMS)*
+| The KOBIL Smart Security Management Server. Controls any interaction between the client device (desktop/mobile) and
+  E-Banking application. Acts at the same time as an authentication server (SSO) and provides device management for the
+  customer. Also takes over the signing transactions process that requires a verification by
+  a second client device.
+| E-Banking redirects user requests that require an authentication to the SSMS server. Authenticated users get afterwards
+  redirected back to  +
+  E-Banking provides a user interface for the device management that is actually done in the backend in SSMS. +
+  E-Banking redirects the flow to SSMS to trigger the sign transaction process.
+| - https://www.kobil.com/technology/smart-security-management-server/[SSMS homepage]
+
+| *Finnova*
+| The Finnova Banking Software is a comprehensive front-to-back software product for retail, universal and private banks.
+  It allows flexible adaptation and integration of the business functionalities required by banks and their clients.
+  The E-Banking application enables all the core banking functions (such as account management, payments, etc.) by
+  integrating the Finnova backend system.
+| E-Banking delegates majority of user requests related to the core banking functions to the Finnova backend system
+  (for example to execute banking operations, retrieve customer relevant data (accounts, cards)).
+| - https://www.finnova.com/en/finnova-banking-software-en.html[Finnova Banking Software webpage] +
+  - <<Finnova-Description>>
+
+| *Central Data Store (CDS)*
+| Central database (Oracle 12c) where application specific data (own application data) can be stored.
+| E-Banking will use this database to store internal information, for example about the currently running transactions
+  (transaction status, etc.).
+| - https://www.oracle.com/database/12c-database/[Oracle database webpage] +
+  - <<CDS-Description>>
+
+| *Search Engine (ES)*
+| Search engine based on the Elasticsearch. Provides fast access and search capabilities (especially used for type ahead
+  search queries) on various business data that were originally stored in Finnova or some other backend systems and
+  afterwards indexed and made available by Elasticsearch.
+| E-Banking performs search request to Elasticsearch to search for payments and securities.
+| - https://www.elastic.co/products/elasticsearch[Elasticsearch homepage] +
+  - <<ES-Description>>
+
+| *Börsenmarktdaten (FactSet)*
+| FactSet is an external service that offers access to data and analytics to portfolio managers, buy-side traders,
+  middle-office professionals and investment bankers at global financial institutions.
+| Stock market information and watchlist are retrieved from FactSet and displayed on a web page.
+| - https://www.factset.com/[FactSet homepage]
+
+| *SIX Paynet*
+| SIX Paynet is a system to digitalize the invoicing and cash flow processes.
+| E-Banking uses Paynet to create electronic invoices (e-bills).
+| - https://www.six-group.com/en/site/banking-services/paynet.html[SIX Paynet homepage]
+
+| *B2B - Business-to-Business Gateway (axway API Gateway)*
+| B2B gateway is an outgoing point from the E-Banking to other services (for example to Datatrans or SIX to process PayPal or
+  credit card payments, etc.). B2B acts as an API Gateway to other external systems.
+| E-Banking (for example P2P module) uses B2B to create/realize payments.
+| - https://www.axway.com/[axway homepage]
+
+| *Document Process Management System (Domtrac)*
+| Domtrac is a document process management system that digitalize chosen back office process and document management
+  at Migros Bank.
+| E-Banking uses Domtrac to generate PDFs documents (produced for example when exporting banking transactions, etc.).
+| - https://docucom.net/en/domtrac/[Domtrac webpage] +
+  - <<Domtrac-Description>>
+
+| *Business Analytics (dynatrace)*
+| dynatrace solution provides business analytics/statistics for applications maintained internally at Migros Bank.
+| E-Banking microservices send application usage statistics (correlated together) to Dynatrace for futher analysis.
+| - https://www.dynatrace.com/platform/[dynatrace homepage]
+
+| *Log Analytics (Splunk)*
+| Splunk is used as an application/infrastructure monitoring tool for applications maintained internally at Migros Bank.
+| E-Banking microservices send logs to Splunk for futher analysis.
+| - https://www.splunk.com/[Splunk homepage]
+
+
+| *Load Balancer (Ingress)*
+| Ingress exposes traffic from outside the cluster to services within the cluster and  can provide load balancing, SSL termination
+  and name-based virtual hosting. The concrete implementation used (for instance an NGINX) is usually provided by the
+  maintainer of the Kubernetes cluster.
+
+| *WAF (Web Application Firewall)*
+| Airlock WAF firewall maintained at Migros Bank protecting the access to the application from the outside.
+
+|===
+
+=== Technical Context
+
+The next diagram depicts all the technical interfaces that connect the E-Banking system with the external systems:
+
+.Technical context
+image::uml/system-context-technical.png[Technical context]
+
+.External systems from the technical view
+[options="header",cols="1,3,3"]
+|===
+| External System | Interface | Interface specification
+
+| *SSMS - Device Management*
+| SOAP
+|
+
+| *SSMS - Transaction Signing*
+| SOAP
+|
+
+| *Finnova - FDK*
+| EDBS - Connection via Java client library created by Migros Bank.
+|
+
+| *Finnova - FIL*
+| HTTP REST - The newer interface to Finnova (doesn't cover all the Finnova functions/data yet).
+| - <<FIL-Interface>>
+
+| *CDS*
+| JDBC (TCP) - Connection via Java library (JDBC Oracle connector).
+| See the JDCB documentation.
+
+| *Elasticsearch*
+| Java Elasticsearch client (using HTTP REST)
+| See the Elasticsearch client documentation.
+
+| *FactSet*
+| HTTP REST - Integration on the frontend via an available vue.js components.
+| - <<FactSet-Interface>>
+
+| *SIX Paynet*
+| HTTP REST
+|
+
+| *B2B*
+| HTTP REST (XML files)
+|
+
+| *Domtrac*
+| HTTP REST
+|
+
+| *MetaDefender*
+| HTTP REST
+|
+
+| *dynatrace*
+| On frontend: integration via embedded JavaScript. On backend: integration via an agent library
+  provided by dynatrace.
+|
+
+| *Splunk*
+| Integration via a specific logging adapter provided by Migros Bank.
+|
+
+
+|===
+

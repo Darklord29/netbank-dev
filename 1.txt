@@ -1,0 +1,118 @@
+To Add ManagementUser 
+add-user.bat admin Welcome01$
+
+To Add Application User 
+add-user.bat -a appuser01 Appuser01$
+
+To connect to domain user
+domain.bat
+http://localhost:9997/console
+
+To Start in Standalone full
+standalone.bat -c standalone-full.xml
+http://localhost:9997/console
+
+To Start in Standalone
+standalone.bat
+http://localhost:9997/console
+
+copy standalone-full.xml  as migrosbank-full.xml & chnage the port nos
+To Start in migrosbank full
+standalone.bat -c migrosbank-full.xml
+http://localhost:8095/console
+
+To connect to standalone migrosbank user
+jboss-cli.bat --connect --controller=127.0.0.1:10005
+
+To connect to standalone  user
+jboss-cli.bat --connect --controller=127.0.0.1:9999
+
+To Create a Queue
+jms-queue add --queue-address=testQueue --entries=queue/test,java:jboss/exported/jms/queue/test
+jms-queue add --queue-address=ConnectorQ --entries=queue/ConnectorQ,java:/queue/ConnectorQ
+
+IF NOT WORKING in ABOVE THEN
+Add below to standalone-full.xml before </jms-destinations>
+<jms-queue name="ConnectorQ">
+	<entry name="queue/ConnectorQ"/>
+	<entry name="java:/queue/ConnectorQ"/>
+</jms-queue>
+
+
+TO Add the Oracle Datsource & jar file to Jboss Do the following
+
+Add the below Tags in appClient.xml, domain.xml & standalone.xml(ha, full, full-ha, osgi ...) inside the <drivers>
+		<driver name="Oracle" module="com.oracle.ojdbc8"/>
+
+		
+To run Add below in standalone.xml files for all profiles (ha,osgi,full,full-ha...)
+    <system-properties>
+        <property name="spring.profiles.active" value="dev"/>
+<!--        <property name="ords.context" value="mcashadmin"/> -->
+		<property name="ords.context" value="mcash"/>
+        <property name="ords.profile" value="dev"/>
+        <property name="pcas.profile" value="dev"/>
+    </system-properties>
+
+
+To run both mcash & mcash-admin Add below in host.xml or host-slave.xml files
+To the server in MainServerGroup
+		<system-properties>
+			<property name="ords.profile" value="dev" boot-time="true"/>
+			<property name="ords.context" value="mcashadmin" boot-time="true"/>
+		</system-properties>
+
+To the server in OtherServerGroup
+		<system-properties>
+			<property name="ords.profile" value="dev" boot-time="true"/>
+			<property name="ords.context" value="mcash" boot-time="true"/>
+		</system-properties>
+
+
+To Add a datasource to a particular profile add the below contents before <drivers> in the <datasource> tag
+<datasource jta="true" jndi-name="java:/datasources/mcashadminDS" pool-name="datasource.mortgage" enabled="true" use-ccm="true" statistics-enabled="false">
+	<connection-url>jdbc:oracle:thin:@mbztx083:1535:MBPCASD1</connection-url>
+	<driver-class>oracle.jdbc.OracleDriver</driver-class>
+	<driver>Oracle</driver>
+	<security>
+		<user-name>mordspro</user-name>
+		<password>mordspro</password>
+	</security>
+	<validation>
+		<validate-on-match>false</validate-on-match>
+		<background-validation>false</background-validation>
+	</validation>
+	<timeout>
+		<set-tx-query-timeout>false</set-tx-query-timeout>
+		<blocking-timeout-millis>0</blocking-timeout-millis>
+		<idle-timeout-minutes>0</idle-timeout-minutes>
+		<query-timeout>0</query-timeout>
+		<use-try-lock>0</use-try-lock>
+		<allocation-retry>0</allocation-retry>
+		<allocation-retry-wait-millis>0</allocation-retry-wait-millis>
+	</timeout>
+	<statement>
+		<share-prepared-statements>false</share-prepared-statements>
+	</statement>
+</datasource>
+				
+
+
+
+LOCAL JBOSS APPLICATION LINKS FOR TESTING
+
+http://localhost:8085/smarx/SmarxTriggerServlet?SMARXLNR=62937550096096
+http://localhost:8085/widget-mortgage/mortgage?VT_LNR=1&KD_LNR=1&LANGUAGE=1
+
+
+355 JBOSS CONSOLE
+http://mbztx30262.migrosbank.ch:9990/console/
+
+355 JBOSS APPLICATION LINKS FOR TESTING
+http://mbztx30405.migrosbank.ch:2020/smarx/SmarxTriggerServlet
+
+http://mbztx30405.migrosbank.ch:2020/pcasadmin/CreditStatusUpdate 
+
+https://eap-imp2.migrosbank.ch/smarx/SmarxTriggerServlet?SMARXLNR=62937550096096
+
+https://eap-tst3.migrosbank.ch/smarx/SmarxTriggerServlet?SMARXLNR=62937550096096

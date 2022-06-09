@@ -1,0 +1,98 @@
+
+airlock 	: audit_token=0004571856-841034
+Securemail	: mdc-fin.GSID=0002991775-205772	
+
+
+TO ADD WHERE CONDITION
+| where count > 0
+
+TO ADD TIME BUCKET
+| bucket span=1d _time
+
+TO SORT BY a Field
+| sort by timestamp, mdc-REQ_UUID
+
+To get Count of events by field(os, appversion & timeBucket)
+| stats count as "error_count" by mdc-fin.OS, mdc-fin.APP_VERSION, _time
+
+To get Distinct Count of events by field(os, appversion & timeBucket)
+| stats dc(mdc-fin.GSID) as "total_count" by mdc-fin.OS, mdc-fin.APP_VERSION, _time 
+
+
+TO GET ERROR_COUNT by OS, APP_VERSION Per Day
+index=mb_jb_midbankingmail_prd_logs message="*Expected session attribute*" | bucket span=1d _time | stats count as "error_count" by mdc-fin.OS, mdc-fin.APP_VERSION, _time 
+
+TO GET TOTAL_COUNT( DISTINCT GSID) by OS, APP_VERSION Per Day
+index=mb_jb_midbankingmail_prd_logs | bucket span=1d _time | stats dc(mdc-fin.GSID) as "total_count" by mdc-fin.OS, mdc-fin.APP_VERSION, _time 
+
+ 
+SECURE MAIL FILTERING
+message!="Loadbalancer Statistics*" message!="emobc using *" message!="Zone aware logic disabled or there is only one zone" message!="getAllCookies() *" message!="getAllCookies : *" message!="reqParamMap is Empty" message!="logParameters : true" message!="logHeaders : true"
+
+COMPARISON
+WORKING
+index=mb_jb_midbankingmail_tst_logs environment=tst3 
+message="Request parameters: content:*" 
+OR message="Request headers: Request headers for uri:*" 
+OR message="Loadbalancer Statistics*" OR message="class:*" 
+OR message="*getAllCookies() ADD TO HEADER Cookie :*" 
+OR message="*method:*" 
+OR message="*EdbsAdvisorDataClient*" 
+OR message="*EdbsAdvisorDataClient*" 
+OR message="*getIncomingMails*"
+OR message="*getOutgoingMails*"
+OR message="*getMailDefaults*"
+OR message="*Expected session attribute*" 
+mdc-fin.GSID=0000112446-275449 
+| sort by timestamp, mdc-REQ_UUID
+
+
+FOR REGEX & Extracting values between Single Quotes
+
+index=mb_jb_midbankingpay_prd_logs application="Migros Bank - MBB Frontend Application" message!="*expression*mbbApplicationService.getCurrentSessionData(), resultExpression*flowScope.sessionData*" message="*Showing exception on error page*" | rex field=message "^(?<rest>.+?)\ action execution attributes were \'map\[\[empty\]\]\'" | rex field=rest "in state \'(?<state>\S+)\' of flow \'(?<flow>\S+)\' --" | bucket span=60d _time | stats count by state, _time | sort by count desc
+
+index=mb_jb_midbankingpay_prd_logs application="Migros Bank - MBB Frontend Application" message!="*expression*mbbApplicationService.getCurrentSessionData(), resultExpression*flowScope.sessionData*" message="*Showing exception on error page*in state \'waitSigDevice\' of flow \'pay\'*" OR message="*Showing exception on error page*in state \'waitSigDevice\' of flow \'orderOverview\'*
+
+
+SecureMail Error Counts
+index=mb_jb_midbankingmail_prd_logs message="*Expected session attribute*" | stats count as "error_count" by mdc-fin.GSID | sort by mdc-fin.GSID, timestamp
+
+airlock-securemail-requests
+index=mb_airlock_logs http_referrer="https://mid.mbmid.ch/midbankingmail/mails/*/reply" OR http_referrer="https://mid.mbmid.ch/midbankingmail/mails/recipients" entry_path!="/midbankingmail/resources/*" entry_path!="/midbankingmail/mails/recipients/select" audit_token=0001859874-244154 | stats count as "req_count" by audit_token, http_referrer, entry_path, http_method, @timestamp | sort by audit_token, @timestamp desc
+
+
+MBB - flow Exception
+index=mb_jb_midbankingpay_tst_logs environment=tst3 application="Migros Bank - MBB Frontend Application" message!="*expression*mbbApplicationService.getCurrentSessionData(), resultExpression*flowScope.sessionData*" message="*Showing exception on error page*" | rex field=message "^(?<rest>.+?)\ action execution attributes were \'map\[\[empty\]\]\'" | rex field=rest "in state \'(?<state>\S+)\' of flow \'(?<flow>\S+)\' --" | bucket span=60d _time | stats count by mdc-fin.GSID, state, flow, _time | sort by count desc
+
+MBB - Balancing Request
+index=mb_jb_midbankingpay_tst_logs application="Migros Bank - MBB Frontend Application" environment=tst3 "*0000123239-122521*" 
+message="REQUEST: LoggingRequest*" 
+| rex field=message "^REQUEST: LoggingRequest\((?<rest>\S+) \)" 
+| bucket span=60d _time | stats count by message, _time | sort by count desc
+
+MBB - Balancing Response
+index=mb_jb_midbankingpay_tst_logs application="Migros Bank - MBB Frontend Application" environment=tst3 "*0000123239-122521*" 
+message="RESPONSE: LoggingResponse*"
+| rex field=message "^RESPONSE: LoggingResponse\((?<rest>\S+) \)" 
+| bucket span=60d _time | stats count by message, _time | sort by count desc
+
+
+MBB - Balancing Request & Response (Merging Request & Response)
+index=mb_jb_midbankingpay_tst_logs application="Migros Bank - MBB Frontend Application" environment=tst3 "*0000123239-122521*" 
+message="REQUEST: LoggingRequest*" OR message="RESPONSE: LoggingResponse*" | rex field=message "^REQUEST: LoggingRequest\((?<rest>\S+) \)" | rex field=message "^RESPONSE: LoggingResponse\((?<rest>\S+) \)"
+| bucket span=1ms _time | stats count by message, _time | sort by count _time
+
+
+SecureMail
+JSESSIONID (02.09.2019)
+index=mb_jb_midbankingmail_tst_logs environment=tst3 logger!="com.netflix.*" message!="finTicket : *" message!="getAllCookies :*" message="Request headers: Request headers for uri*" OR message="*Exception*" "*0000119934-802796*" | rex field=message "^Request headers: Request headers for uri: (?<rest>\S+)\ " | bucket span=1ms _time | stats count by message, _time | sort by _time desc
+
+SECUREMAIL_JSESSIONID (23.10.2019)
+index=mb_jb_midbankingmail_tst_logs environment=tst3 logger!="com.netflix.*" message!="finTicket : *" message!="getAllCookies :*" "*0000122173-718646*"  message="Request headers: Request headers for uri*" | rex field=message "^Request headers: Request headers for uri: (?<rest>\S+)\ " | bucket span=1ms _time | stats count by message, _time | sort by _time desc
+
+CARDBLOCK_JSESSIONID (23.10.2019)
+index=mb_jb_midbankingcardblock_tst_logs environment=tst3 logger!="com.netflix.*" message!="finTicket : *" message!="getAllCookies :*" message!="reqParamMap is Empty" message!="logParameters : true" message!="logHeaders : true" message!="Loadbalancer Statistics*" message!="getAllCookies : *" logger!=metrics message="Request headers: Request headers for uri*" OR message="*Exception*" "*0000122173-871621*" | rex field=message "^Request headers: Request headers for uri: (?<rest>\S+)\ " | bucket span=1ms _time
+ | stats count by message, _time | sort by _time desc
+ 
+CARDGEO_JSESSIONID (23.10.2019)
+index=mb_jb_midbankingcardgeo_tst_logs environment=tst3 logger!="com.netflix.*" message!="finTicket : *" message!="getAllCookies :*" message!="reqParamMap is Empty" message!="logParameters : true" message!="logHeaders : true" message!="Loadbalancer Statistics*" message!="getAllCookies : *" logger!=metrics message="Request headers: Request headers for uri*" "*0000122173-871621*" | rex field=message "^Request headers: Request headers for uri: (?<rest>\S+)\ " | bucket span=1ms _time | stats count by message, _time | sort by _time desc
